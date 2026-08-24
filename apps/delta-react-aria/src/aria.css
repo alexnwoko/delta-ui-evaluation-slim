@@ -1,0 +1,84 @@
+/* Hand-written styling for React Aria Components.
+   Everything here uses CSS LOGICAL properties, which is why RTL needs no plugin,
+   no second style cache and no class rewriting — the browser mirrors it. */
+.ui { --brand:#0b5cad; --brand-700:#083f78; --line:#d4d7dd; --ink:#111827; --ink2:#4b5563;
+      --bad:#b91c1c; --ok:#166534; --warn:#92400e; --radius:6px; }
+.ui h1 { margin:0 0 12px; font-size:28px; }
+.card { background:#fff; border:1px solid var(--line); border-radius:10px; padding:16px; }
+.toolbar { display:flex; gap:10px; flex-wrap:wrap; align-items:end; margin-block-end:14px; }
+
+.btn { display:inline-flex; align-items:center; gap:6px; border:1px solid var(--line); background:#fff;
+  color:var(--ink); border-radius:var(--radius); padding:7px 12px; font:inherit; font-size:14px; cursor:pointer; }
+.btn[data-hovered] { background:#f3f4f6; }
+.btn[data-focus-visible] { outline:2px solid var(--brand); outline-offset:2px; }
+.btn[data-pressed] { background:#e5e7eb; }
+.btn[data-disabled] { opacity:.5; cursor:not-allowed; }
+.btn.primary { background:var(--brand); border-color:var(--brand); color:#fff; }
+.btn.primary[data-hovered] { background:var(--brand-700); }
+.btn.danger { background:var(--bad); border-color:var(--bad); color:#fff; }
+.btn.icon { padding:5px 7px; }
+.btn.ghost { border-color:transparent; background:transparent; }
+
+.field { display:flex; flex-direction:column; gap:4px; }
+.field > label { font-size:12px; color:var(--ink2); font-weight:600; }
+.field input, .field textarea, .sel-btn {
+  border:1px solid var(--line); border-radius:var(--radius); padding:7px 10px; font:inherit; font-size:14px;
+  background:#fff; color:var(--ink); min-inline-size:0; }
+.field input[data-focused], .field textarea[data-focused], .sel-btn[data-focus-visible] {
+  outline:2px solid var(--brand); outline-offset:0; border-color:var(--brand); }
+.sel-btn { display:inline-flex; align-items:center; justify-content:space-between; gap:8px;
+  min-inline-size:190px; cursor:pointer; text-align:start; }
+.popover { background:#fff; border:1px solid var(--line); border-radius:8px; box-shadow:0 8px 24px rgba(0,0,0,.14);
+  padding:4px; min-inline-size:var(--trigger-width); max-block-size:280px; overflow:auto; }
+.listitem { padding:6px 10px; border-radius:4px; font-size:14px; cursor:default; outline:none; }
+.listitem[data-focused] { background:#e8f1fb; }
+.listitem[data-selected] { font-weight:600; }
+
+table.grid { inline-size:100%; border-collapse:collapse; font-size:13.5px; }
+table.grid th { text-align:start; font-weight:600; color:var(--ink2); border-block-end:1px solid var(--line);
+  padding:8px 10px; white-space:nowrap; outline:none; cursor:default; }
+table.grid th[data-focus-visible] { outline:2px solid var(--brand); outline-offset:-2px; }
+table.grid td { padding:7px 10px; border-block-end:1px solid #eef0f3; outline:none; }
+table.grid tr[data-focus-visible] { outline:2px solid var(--brand); outline-offset:-2px; }
+table.grid tr[data-selected] { background:#eaf3fc; }
+table.grid tr[data-hovered] { background:#f8fafc; }
+.num { text-align:end; font-variant-numeric:tabular-nums; }
+
+.tag { display:inline-block; border-radius:999px; padding:2px 9px; font-size:12px; font-weight:600; }
+.tag.ok { background:#dcfce7; color:var(--ok); }
+.tag.info { background:#dbeafe; color:#1e40af; }
+.tag.warn { background:#fef3c7; color:var(--warn); }
+
+.overlay { position:fixed; inset:0; background:rgba(15,23,42,.45); display:grid; place-items:center; z-index:20; }
+.modal { background:#fff; border-radius:12px; padding:22px; inline-size:min(520px, 92vw);
+  box-shadow:0 20px 50px rgba(0,0,0,.3); }
+.modal h2 { margin:0 0 8px; font-size:18px; }
+.modal .actions { display:flex; gap:8px; justify-content:flex-end; margin-block-start:16px; }
+
+.toast { position:fixed; inset-block-start:16px; inset-inline-end:16px; background:#fff; border:1px solid var(--ok);
+  border-inline-start:4px solid var(--ok); border-radius:8px; padding:12px 16px; box-shadow:0 8px 24px rgba(0,0,0,.16); z-index:40; }
+
+.alert { background:#eff6ff; border:1px solid #bfdbfe; border-inline-start:4px solid var(--brand);
+  border-radius:8px; padding:12px 14px; color:#1e3a5f; font-size:14px; margin-block-end:14px; }
+
+.tabs { display:flex; gap:4px; border-block-end:1px solid var(--line); }
+.tab { padding:8px 12px; font-size:14px; cursor:default; border-block-end:2px solid transparent; outline:none; }
+.tab[data-selected] { border-block-end-color:var(--brand); color:var(--brand); font-weight:600; }
+.tab[data-focus-visible] { outline:2px solid var(--brand); outline-offset:-2px; }
+
+.checkline { display:flex; align-items:center; gap:8px; font-size:14px; }
+.box { inline-size:16px; block-size:16px; border:2px solid var(--line); border-radius:3px; }
+.checkline [data-selected] .box, .box[data-selected] { background:var(--brand); border-color:var(--brand); }
+.sw { inline-size:36px; block-size:20px; background:var(--line); border-radius:999px; padding:2px; display:flex; }
+.sw-dot { inline-size:16px; block-size:16px; background:#fff; border-radius:999px; transition:margin .15s; }
+.crumbs { display:flex; gap:6px; font-size:13px; list-style:none; margin:0; padding:0; }
+.crumbs li::after { content:"/"; margin-inline-start:6px; color:var(--ink2); }
+.crumbs li:last-child::after { content:""; }
+.pager { display:flex; gap:8px; align-items:center; margin-block-start:12px; font-size:13px; color:var(--ink2); }
+.dateseg { padding:0 2px; border-radius:3px; outline:none; }
+.dateseg[data-focused] { background:var(--brand); color:#fff; }
+.dateinput { display:inline-flex; border:1px solid var(--line); border-radius:var(--radius); padding:7px 10px; font-size:14px; background:#fff; }
+.slider-track { inline-size:160px; block-size:6px; background:var(--line); border-radius:999px; position:relative; }
+.slider-thumb { inline-size:16px; block-size:16px; background:var(--brand); border-radius:999px; inset-block-start:50%; }
+.meter-track { inline-size:180px; block-size:8px; background:var(--line); border-radius:999px; overflow:hidden; }
+.meter-fill { block-size:100%; background:var(--brand); }

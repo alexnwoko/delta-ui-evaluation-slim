@@ -1,0 +1,284 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DELTA UI evaluation — component library candidates</title>
+<style>
+:root{color-scheme:light;--plane:#f9f9f7;--surface:#fcfcfb;--ink:#0b0b0b;--ink2:#52514e;--muted:#898781;
+ --line:#e1e0d9;--axis:#c3c2b7;--s1:#2a78d6;--s2:#eb6834;--good:#0ca30c;--warn:#fab219;--crit:#d03b3b;
+ --q100:#cde2fb;--q200:#9ec5f4;--q300:#6da7ec;--q550:#1c5cab;--q650:#104281;--nav:#0b2a45;}
+@media(prefers-color-scheme:dark){:root:where(:not([data-theme="light"])){color-scheme:dark;
+ --plane:#0d0d0d;--surface:#1a1a19;--ink:#fff;--ink2:#c3c2b7;--line:#2c2c2a;--axis:#383835;
+ --s1:#3987e5;--s2:#d95926;--q100:#104281;--q200:#184f95;--q300:#256abf;--q550:#6da7ec;--q650:#9ec5f4;}}
+:root[data-theme="dark"]{color-scheme:dark;--plane:#0d0d0d;--surface:#1a1a19;--ink:#fff;--ink2:#c3c2b7;
+ --line:#2c2c2a;--axis:#383835;--s1:#3987e5;--s2:#d95926;--q100:#104281;--q200:#184f95;--q300:#256abf;--q550:#6da7ec;--q650:#9ec5f4;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--plane);color:var(--ink);
+ font:15px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Arial,sans-serif}
+.topbar{background:var(--nav);color:#fff;padding:0 20px;display:flex;gap:2px;align-items:stretch;
+ flex-wrap:wrap;position:sticky;top:0;z-index:10;box-shadow:0 1px 0 rgba(0,0,0,.15)}
+.topbar button{background:transparent;border:0;color:#cfe3f7;font:inherit;font-size:13.5px;
+ padding:13px 14px;cursor:pointer;border-bottom:3px solid transparent}
+.topbar button[aria-current="true"]{color:#fff;font-weight:600;border-bottom-color:var(--s2)}
+.topbar button:hover{color:#fff}
+.topbar .sp{flex:1}
+.topbar .th{align-self:center;border:1px solid rgba(255,255,255,.3);border-radius:6px;padding:5px 10px;font-size:12px}
+.wrap{max-width:1240px;margin:0 auto;padding:26px 20px 80px}
+h1{font-size:27px;margin:0 0 6px;letter-spacing:-.01em}
+h2{font-size:18px;margin:0 0 6px}
+.sub{color:var(--ink2);font-size:13px;margin:0 0 4px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:20px;margin-top:20px}
+.note{color:var(--ink2);font-size:13px;margin:0 0 16px}
+.callout{border:1px solid var(--crit);border-left:4px solid var(--crit);border-radius:10px;
+ background:var(--surface);padding:16px 18px;margin-top:18px}
+.callout h2{color:var(--crit)}
+.callout p{margin:6px 0 0;font-size:13.5px;color:var(--ink2)}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.9em;
+ background:color-mix(in srgb,var(--muted) 15%,transparent);padding:1px 5px;border-radius:4px}
+table{border-collapse:collapse;width:100%;font-size:13px}
+th,td{text-align:left;padding:9px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:11.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink2);font-weight:700}
+tbody tr:hover{background:color-mix(in srgb,var(--muted) 7%,transparent)}
+.cand{font-weight:700;font-size:14px}
+.cand small{display:block;font-weight:400;color:var(--ink2);font-size:11.5px;margin-top:2px}
+.score{font-variant-numeric:tabular-nums;font-weight:700;font-size:16px}
+.score small{font-weight:400;color:var(--muted)}
+.q{display:inline-block;min-width:74px;text-align:center;border-radius:5px;padding:3px 8px;
+ font-size:11.5px;font-weight:700}
+.q5{background:#dcfce7;color:#14532d}.q4{background:#e7f5e9;color:#166534}
+.q3{background:#fef6dd;color:#854d0e}.q2{background:#fde9d9;color:#9a3412}.q1{background:#fde2e2;color:#991b1b}
+:root[data-theme="dark"] .q5,:root[data-theme="dark"] .q4{background:#14361f;color:#8ce0a5}
+:root[data-theme="dark"] .q3{background:#3a2f10;color:#f5d78a}
+:root[data-theme="dark"] .q2{background:#3d2412;color:#f0a374}
+:root[data-theme="dark"] .q1{background:#3d1717;color:#f19a9a}
+@media(prefers-color-scheme:dark){:root:where(:not([data-theme="light"])) .q5,:root:where(:not([data-theme="light"])) .q4{background:#14361f;color:#8ce0a5}
+:root:where(:not([data-theme="light"])) .q3{background:#3a2f10;color:#f5d78a}
+:root:where(:not([data-theme="light"])) .q2{background:#3d2412;color:#f0a374}
+:root:where(:not([data-theme="light"])) .q1{background:#3d1717;color:#f19a9a}}
+a.demo{display:block;text-align:center;border:1px solid var(--axis);border-radius:6px;
+ padding:5px 9px;font-size:12px;text-decoration:none;color:var(--ink);margin-bottom:5px;background:var(--surface)}
+a.demo:hover{border-color:var(--s1);color:var(--s1)}
+a.demo.p{border-color:var(--s1);color:var(--s1);font-weight:600}
+.pill{display:inline-flex;gap:5px;align-items:center;font-weight:700;font-size:11.5px}
+.pill.f{color:var(--crit)}.pill.p{color:var(--good)}
+.bars{display:grid;gap:9px}
+.brow{display:grid;grid-template-columns:250px 1fr;gap:12px;align-items:center}
+.blab{font-size:12.5px;color:var(--ink2);text-align:right}
+.btrack{position:relative;height:24px}
+.bar{height:24px;border-radius:0 4px 4px 0;position:relative}
+.bval{position:absolute;top:50%;transform:translateY(-50%);left:calc(100% + 8px);font-size:12px;
+ color:var(--ink2);white-space:nowrap;font-variant-numeric:tabular-nums}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px}
+.tile{background:var(--plane);border:1px solid var(--line);border-radius:10px;padding:14px 16px}
+.tile .n{font-size:23px;font-weight:700;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.tile .l{font-size:12px;color:var(--ink2);margin-top:3px;line-height:1.4}
+.shots{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.shots figure{margin:0}
+.shots img{width:100%;border:1px solid var(--line);border-radius:8px;display:block}
+.shots figcaption{font-size:12px;color:var(--ink2);margin-top:6px}
+.hidden{display:none}
+ul.tight{margin:8px 0 0;padding-left:20px;font-size:13.5px;color:var(--ink2)}
+ul.tight li{margin-bottom:6px}
+footer{max-width:1240px;margin:0 auto;padding:0 20px 60px;font-size:12px;color:var(--muted);line-height:1.65}
+.wtable td:first-child{width:60%}
+.wt input{width:64px;padding:4px 6px;border:1px solid var(--axis);border-radius:5px;background:var(--surface);
+ color:var(--ink);font:inherit;font-size:13px;text-align:center}
+@media(max-width:820px){.brow{grid-template-columns:1fr}.blab{text-align:left}.shots{grid-template-columns:1fr}}
+</style>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%276%27 fill=%27%230b2a45%27/%3E%3Ctext x=%2716%27 y=%2722%27 font-size=%2716%27 font-family=%27Arial%27 fill=%27white%27 text-anchor=%27middle%27%3E%CE%94%3C/text%3E%3C/svg%3E">
+</head>
+<body>
+<nav class="topbar" id="tabs">
+  <button data-t="rank" aria-current="true">Ranking</button>
+  <button data-t="demos">Demos</button>
+  <button data-t="criteria">Criteria</button>
+  <button data-t="measure">Measurements</button>
+  <button data-t="findings">Build findings</button>
+  <button data-t="method">Method &amp; limits</button>
+  <span class="sp"></span>
+  <button class="th" id="themeBtn">Dark</button>
+</nav>
+<div class="wrap">
+<h1>DELTA UI component library evaluation</h1>
+<p class="sub">Six candidates, each implementing the same DELTA screen. Every score below is backed by a
+runnable demo, a measured build, or a line of DELTA source — nothing is scored from documentation alone.</p>
+<p class="sub"><b>The showcase is presented in English.</b> Every demo also carries a language switcher covering the
+six official UN languages plus Portuguese, so the design is demonstrably built for them — but English is the
+default state, not a translated one.</p>
+<p class="sub">Baseline <code>DELTA-Learning @ d0ebd47</code> · demos built with Vite 7.3.6 / React 19.2.4 · 11 August 2026</p>
+
+<div class="callout" role="alert">
+  <h2>Provisional evidence, not an adoption decision</h2>
+  <p>Scores are the analyst's reading of measured evidence against weights <em>proposed</em> here and not ratified by UNDRR.
+  They do not establish accessibility conformance — no candidate in this field publishes a VPAT — and they do not
+  substitute for human accessibility review or for a UNDRR architecture decision. Re-weight the criteria on the
+  <b>Criteria</b> tab and the ranking recomputes.</p>
+</div>
+
+<!-- ================= RANKING ================= -->
+<section data-p="rank">
+<div class="card">
+  <h2>Ranking</h2>
+  <p class="note">Weighted against the four criteria UNDRR prioritised: accessibility, styling interoperability,
+  data functionality, and continuity across DELTA, Mangrove and other UNDRR properties.</p>
+  <div style="overflow-x:auto"><table id="rankTable"></table></div>
+  <p class="note" style="margin:14px 0 0">
+  <b>Read with care.</b> "Continuity" is modelled, not measured — it rests on which stack UNDP's design system and
+  UNDRR's own Mangrove actually use, not on a running multi-property deployment. Accessibility scores rank
+  <em>published evidence and remediability</em>, not conformance.</p>
+</div>
+<div class="card">
+  <h2>Hard gates</h2>
+  <p class="note">Failing any of these removes a candidate regardless of score.</p>
+  <div style="overflow-x:auto"><table id="gateTable"></table></div>
+</div>
+<div class="card">
+  <h2>What the demos actually show</h2>
+  <div class="shots">
+    <figure><img src="shots/delta-mui-en.png" alt="Material UI demo of the DELTA disaster records screen in English">
+      <figcaption><b>Material UI, English — the default state.</b> Nine columns, selection, sorting, pagination and
+      row actions, all on the free MIT data grid. Every demo opens like this.</figcaption></figure>
+    <figure><img src="shots/delta-shadcn-en.png" alt="Radix and shadcn demo of the DELTA disaster records screen in English">
+      <figcaption><b>Radix + shadcn, English.</b> The same screen from components that live in the repository rather
+      than in a dependency — and the lightest build measured, at 124 kB gzip.</figcaption></figure>
+  </div>
+</div>
+<div class="card">
+  <h2>Language and direction</h2>
+  <p class="note">DELTA ships seven languages. The question is not whether <em>DELTA's</em> strings translate — they do,
+  in every demo — but whether the <em>library's own</em> strings do: pagination summaries, "select all rows", empty
+  states, column filter menus, date pickers. A library that ships no locale packs hands that work, and its permanent
+  maintenance, to DELTA.</p>
+  <div style="overflow-x:auto"><table id="langTable"></table></div>
+  <div class="shots" style="margin-top:20px">
+    <figure><img src="shots/delta-carbon-pt.png" alt="IBM Carbon demo in Portuguese, with DELTA content translated but Carbon's own interface strings still in English">
+      <figcaption><b>Carbon in Portuguese.</b> DELTA's content translates. Carbon's own furniture does not —
+      it ships no locale packs, in any language.</figcaption></figure>
+    <figure><img src="shots/delta-react-aria-ar.png" alt="React Aria demo in Arabic, fully mirrored right to left with Arabic-Indic numerals">
+      <figcaption><b>React Aria in Arabic.</b> Mirrored by CSS logical properties, with Arabic-Indic numerals and
+      Arabic month names — no RTL plugin, no second style cache.</figcaption></figure>
+  </div>
+</div>
+</section>
+
+<!-- ================= DEMOS ================= -->
+<section data-p="demos" class="hidden">
+<div class="card">
+  <h2>Runnable demos</h2>
+  <p class="note">Each candidate ships two pages built from one shared dataset and one shared host shell, so what
+  differs between them is the library and nothing else. Inside every demo: <b>DELTA screen</b> is the disaster-records
+  list — search, hazard filter, nine columns, status tags, row actions, sorting, selection, pagination, a confirm
+  dialog and a toast. <b>Inventory</b> is the kitchen sink of everything DELTA's 33 PrimeReact modules cover.
+  The <b>ع · RTL</b> switch in each demo is the point of the exercise.</p>
+  <div style="overflow-x:auto"><table id="demoTable"></table></div>
+</div>
+<div class="card">
+  <h2>Try this in each demo</h2>
+  <ul class="tight">
+    <li><b>Press ع · RTL.</b> Does the layout mirror? Do the library's <em>own</em> strings — pagination, "select all",
+    empty state, date picker — become Arabic, or stay English? Do the numerals become Arabic-Indic?</li>
+    <li><b>Put the mouse down and use the keyboard.</b> Tab to the table, then arrow keys, Home/End, type-ahead,
+    Shift+click for a range. React Aria and Carbon behave like a grid; the others behave like a list of links.</li>
+    <li><b>Open the delete dialog and press Escape.</b> Where does focus land afterwards? It should return to the
+    button you opened it from.</li>
+    <li><b>Sort a column, then read the header.</b> Is <code>aria-sort</code> set, or is the arrow purely visual?</li>
+    <li><b>Compare the Inventory pages side by side.</b> This is the real breadth question: how much of DELTA's
+    existing component surface comes for free, and how much you build.</li>
+  </ul>
+</div>
+</section>
+
+<!-- ================= CRITERIA ================= -->
+<section data-p="criteria" class="hidden">
+<div class="card">
+  <h2>Criteria and weights</h2>
+  <p class="note">Edit a weight and every score on this page recomputes. Weights must total 100.</p>
+  <table class="wtable wt" id="weightTable"></table>
+  <p class="note" id="weightSum" style="margin-top:12px"></p>
+</div>
+<div class="card">
+  <h2>Score by criterion</h2>
+  <p class="note">1 = poor, 5 = strong. Hover any cell for the evidence behind the score.</p>
+  <div style="overflow-x:auto"><table id="heatTable"></table></div>
+</div>
+</section>
+
+<!-- ================= MEASUREMENTS ================= -->
+<section data-p="measure" class="hidden">
+<div class="card">
+  <h2>Measured payload</h2>
+  <p class="note">Total gzip of JS + CSS for the identical screen, from real production builds in one harness.
+  Fonts are counted separately because they are not gzipped again over the wire.</p>
+  <div class="bars" id="payloadBars"></div>
+</div>
+<div class="card">
+  <h2>Full build output</h2>
+  <div style="overflow-x:auto"><table id="measureTable"></table></div>
+  <p class="note" style="margin-top:14px">Reproduce: <code>npm install &amp;&amp; npx vite build</code> in any
+  <code>apps/*</code> directory. Set <code>IBM_TELEMETRY_DISABLED=true</code> first — see Build findings.</p>
+</div>
+</section>
+
+<!-- ================= FINDINGS ================= -->
+<section data-p="findings" class="hidden">
+<div class="card">
+  <h2>Findings that only appeared when the code was built</h2>
+  <p class="note">None of these are in any candidate's documentation. Each was produced by compiling the demo on this page.</p>
+  <div id="findingList"></div>
+</div>
+</section>
+
+<!-- ================= METHOD ================= -->
+<section data-p="method" class="hidden">
+<div class="card">
+  <h2>Method</h2>
+  <ul class="tight">
+    <li><b>One screen, six implementations.</b> Identical dataset (120 records), identical host shell, identical
+    feature list. The host chrome is plain CSS so it cannot flatter or handicap any candidate.</li>
+    <li><b>Licences read from published tarballs</b>, not from the npm <code>license</code> field and not from vendor
+    marketing. <code>primereact@11.1.0</code>'s <code>LICENSE.md</code> was downloaded and read.</li>
+    <li><b>Payload measured, never cited.</b> Each demo is a real <code>vite build</code>; figures are gzip of the
+    emitted assets.</li>
+    <li><b>DELTA coupling counted with ripgrep</b> against the checkout — 263 imports, 82 of 270 <code>.tsx</code>,
+    33 modules, 0 tests selecting on PrimeReact DOM.</li>
+  </ul>
+</div>
+<div class="card">
+  <h2>Two naming points, because they cause confusion</h2>
+  <ul class="tight">
+    <li><b>"MUI" and "Material UI" are the same product.</b> The candidate here is
+    <code>@mui/material</code> 9.3.1 — Material UI, by MUI (Material-UI SAS). It is evaluated on its
+    <b>community MIT tier only</b>; MUI X Pro and Premium are excluded by DELTA's licence policy, not by preference.
+    Note also that Material UI v9 is <em>not</em> built on Base UI — verified from its dependency tree — so MUI's
+    accessible-primitive work is going into a different product than the one you would adopt.</li>
+    <li><b>Google's own <code>@material/web</code> is a different thing, and is not a candidate.</b> It implements
+    Material Design 3 as web components rather than React, and its README states plainly: <i>"MWC is in maintenance
+    mode pending new maintainers."</i> The last stable release is 2.5.0; everything since is nightly builds.
+    A UN platform with a ten-year horizon should not adopt an unmaintained component layer.</li>
+  </ul>
+</div>
+<div class="card">
+  <h2>Limits — read these before quoting a number</h2>
+  <ul class="tight">
+    <li><b>No candidate here publishes a VPAT or ACR.</b> Accessibility scores rank published <em>evidence</em> and
+    remediability. They are not conformance claims and do not replace an audit with real assistive technology.</li>
+    <li><b>Continuity is modelled.</b> It is inferred from what UNDP's design system and UNDRR's Mangrove are built on —
+    not from a running multi-property deployment.</li>
+    <li><b>The demos are client-rendered.</b> DELTA runs React Router v7 with SSR on. The SSR costs described for
+    Ant Design and MUI are read from their documentation and issue trackers; they were not reproduced here.</li>
+    <li><b>Baseline is the learning fork</b> at <code>d0ebd47</code> (7 May 2026). Re-baseline against
+    <code>unisdr/DELTA</code> before committing to estimates.</li>
+    <li><b>MUI is evaluated on its community tier only.</b> Anything requiring MUI X Pro or Premium was excluded
+    by DELTA's licence policy, not merely by preference.</li>
+    <li><b>Weights are proposed, not ratified.</b> They are the analyst's, and they change the ranking. That is why
+    they are editable.</li>
+    <li><b>Translations in the demos are illustrative.</b> They exist to show which strings each library owns versus
+    which DELTA owns. They have not been reviewed by UNDRR translators and should not be reused as copy.</li>
+  </ul>
+</div>
+</section>
+</div>
+<footer id="foot"></footer>
+<script src="app.js"></script>
+</body>
+</html>
